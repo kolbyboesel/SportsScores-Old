@@ -14,16 +14,6 @@ const options = {
 	}
 };
 
-let data;
-
-fetch(url, options)
-	.then(response => response.json())
-	.then(response => {
-		data = response;
-		// You can also do something with the data here
-	  })
-	.catch(err => console.error(err));
-
 async function getData(url){
 	try {
 		let res = await fetch(url, options);
@@ -43,24 +33,23 @@ async function loadNBA() {
     let allScores = await getNBA();
     let html = '';
     allScores.forEach(currentScore => {
-		let awayScore = 0;
-		let homeScore = 0;
-		try {
-			let awayScoreRaw = currentScore.scores[1].score;
-			let homeScoreRaw = currentScore.scores[0].score;
+      let awayScore = 0;
+      let homeScore = 0;
+      try {
+        let awayScoreRaw = currentScore.scores[1].score;
+        let homeScoreRaw = currentScore.scores[0].score;
 
-			awayScoreRaw === null ? awayScore = 0 : awayScore = Number(awayScoreRaw);
-			homeScoreRaw === null ? homeScore = 0 : homeScore = Number(homeScoreRaw);
-		} catch (error) {
-			homeScore = 0;
-			awayScore = 0;
-		}
+        awayScoreRaw === null ? awayScore = 0 : awayScore = Number(awayScoreRaw);
+        homeScoreRaw === null ? homeScore = 0 : homeScore = Number(homeScoreRaw);
+      } catch (error) {
+        homeScore = 0;
+        awayScore = 0;
+      }
 
-        let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
-		let completedDate = formatDate(currentScore.completed_date);
-    html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
+      let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
+      let completedDate = formatDate(currentScore.completed_date);
 
-    	html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
+      html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
     });
 
     let container = document.querySelector('.' + containerName);
@@ -76,28 +65,28 @@ async function buildScoreboard(allScores, containerName) {
 
     let html = '';
     allScores.forEach(currentScore => {
-		let awayScore = 0;
-		let homeScore = 0;
-		try {
-			let awayScoreRaw = currentScore.scores[1].score;
-			let homeScoreRaw = currentScore.scores[0].score;
+      let awayScore = 0;
+      let homeScore = 0;
 
-			awayScoreRaw === null ? awayScore = 0 : awayScore = Number(awayScoreRaw);
-			homeScoreRaw === null ? homeScore = 0 : homeScore = Number(homeScoreRaw);
-		} catch (error) {
-			homeScore = 0;
-			awayScore = 0;
-		}
+      try {
+        let awayScoreRaw = currentScore.scores[1].score;
+        let homeScoreRaw = currentScore.scores[0].score;
 
-        let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
-		let completedDate = formatDate(currentScore.completed_date);
+        awayScoreRaw === null ? awayScore = 0 : awayScore = Number(awayScoreRaw);
+        homeScoreRaw === null ? homeScore = 0 : homeScore = Number(homeScoreRaw);
+      } catch (error) {
+        homeScore = 0;
+        awayScore = 0;
+      }
 
-    html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
+      let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
+      let completedDate = formatDate(currentScore.completed_date);
 
-});
+      html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
+  });
 
-let container = document.querySelector('.' + containerName);
-container.innerHTML = html;
+  let container = document.querySelector('.' + containerName);
+  container.innerHTML = html;
 }
 
 function formatDate(rawDate){
@@ -108,16 +97,16 @@ function formatDate(rawDate){
 }
 
 function generateScoreboard(currentScore, awayScore, homeScore, winningTeam, dateTimeValue) {
-  let htmlSegment = `<div class="outer">
-    <div class="scoreboard">`;
+  let htmlSegment = `<div class="outer"><div class="scoreboard">`;
+  let gameStatus;
 
-	let gameStatus;
-    if(currentScore.completed){
-        gameStatus = "FINAL";
-    }
-    else{
-        gameStatus = ""
-    }
+  if(currentScore.completed){
+    gameStatus = "FINAL";
+  }
+  else {
+    gameStatus = ""
+  }
+
   if (winningTeam === currentScore.away_team) {
     htmlSegment += `
 	<div class="date">${dateTimeValue}</div>
