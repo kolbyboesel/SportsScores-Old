@@ -23,10 +23,7 @@ async function getNBA() {
 	let url = 'https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=2';
 	try {
 		let res = await fetch(url, options);
-
-		let jsonResult = res.json();
-		console.log(jsonResult);
-		return await jsonResult;
+		return await res.json();
 	} catch (error) {
 		console.log(error);
 	}
