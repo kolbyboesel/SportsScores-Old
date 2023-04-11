@@ -1,14 +1,8 @@
 //API KEY-9f3436bf65c47b3988484cb92d3cb3be
 
-function clearNBA(elementID)
+function clear(elementID)
 {
-    let container = document.querySelector('.containerNBA');
-    container.innerHTML = "";
-}
-
-function clearMLB(elementID)
-{
-    let container = document.querySelector('.containerMLB');
+    let container = document.querySelector(elementID);
     container.innerHTML = "";
 }
 
@@ -30,18 +24,17 @@ fetch(url, options)
 	  })
 	.catch(err => console.error(err));
 
-
-console.log(data);
-
-async function getNBA() {
-
-	let url = 'https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=3';
+async function getData(url){
 	try {
 		let res = await fetch(url, options);
 		return await res.json();
 	} catch (error) {
 		console.log(error);
 	}
+}
+
+async function showNBAScores() {
+	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=3'), 'containerNBA')
 }
 
 async function loadNBA() {
@@ -73,21 +66,13 @@ async function loadNBA() {
     container.innerHTML = html;
 }
 
-async function getMLB() {
-
-	let url = 'https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?daysFrom=3';
-	try {
-		let res = await fetch(url, options);
-		return await res.json();
-	} catch (error) {
-		console.log(error);
-	}
+async function showMLBScores() {
+	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?daysFrom=3'), 'containerMLB')	
 }
 
-async function loadMLB() {
-	clearMLB("containerMLB");
+async function buildScoreboard(allScores, containerName) {
+	clear('.' + containerName);
 
-    let allScores = await getMLB();
     let html = '';
     allScores.forEach(currentScore => {
 		let awayScore = 0;
@@ -110,7 +95,7 @@ async function loadMLB() {
 
 });
 
-let container = document.querySelector('.containerMLB');
+let container = document.querySelector('.' + containerName);
 container.innerHTML = html;
 }
 
