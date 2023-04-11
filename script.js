@@ -23,7 +23,10 @@ async function getNBA() {
 	let url = 'https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=2';
 	try {
 		let res = await fetch(url, options);
-		return await res.json();
+
+		let jsonResult = res.json();
+		console.log(jsonResult);
+		return await jsonResult;
 	} catch (error) {
 		console.log(error);
 	}
@@ -36,23 +39,14 @@ async function loadNBA() {
 		let awayScore = 0;
 		let homeScore = 0;
 		try {
-			awayScore = currentScore.scores[1].score;
-			homeScore = currentScore.scores[0].score;
+			let awayScoreRaw = currentScore.scores[1].score;
+			let homeScoreRaw = currentScore.scores[0].score;
+
+			awayScoreRaw === null ? awayScore = 0 : awayScore = Number(awayScoreRaw);
+			homeScoreRaw === null ? homeScore = 0 : homeScore = Number(homeScoreRaw);
 		} catch (error) {
 			homeScore = 0;
 			awayScore = 0;
-		}
-		let compareHomeScore = homeScore;
-		let compareAwayScore = awayScore;
-
-		console.log("homeScore = " + homeScore);
-		console.log("awayScore = " + awayScore);
-
-		if(homeScore.length != 3){
-			compareHomeScore = "0" + homeScore;
-		}
-		if(awayScore.length != 3){
-			compareAwayScore = "0" + awayScore;
 		}
 
 		let winningTeam = awayScore < homeScore ? "home" : "away";
