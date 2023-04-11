@@ -27,35 +27,6 @@ async function showNBAScores() {
 	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=3'), 'containerNBA')
 }
 
-async function loadNBA() {
-	clearNBA("containerNBA");
-
-    let allScores = await getNBA();
-    let html = '';
-    allScores.forEach(currentScore => {
-      let awayScore = 0;
-      let homeScore = 0;
-      try {
-        let awayScoreRaw = currentScore.scores[1].score;
-        let homeScoreRaw = currentScore.scores[0].score;
-
-        awayScoreRaw === null ? awayScore = 0 : awayScore = Number(awayScoreRaw);
-        homeScoreRaw === null ? homeScore = 0 : homeScore = Number(homeScoreRaw);
-      } catch (error) {
-        homeScore = 0;
-        awayScore = 0;
-      }
-
-      let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
-      let completedDate = formatDate(currentScore.completed_date);
-
-      html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
-    });
-
-    let container = document.querySelector('.' + containerName);
-    container.innerHTML = html;
-}
-
 async function showMLBScores() {
 	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?daysFrom=3'), 'containerMLB')	
 }
@@ -80,7 +51,7 @@ async function buildScoreboard(allScores, containerName) {
       }
 
       let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
-      let completedDate = formatDate(currentScore.completed_date);
+      let completedDate = formatDate(currentScore.commence_time);
 
       html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
   });
