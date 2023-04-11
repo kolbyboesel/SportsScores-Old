@@ -1,85 +1,84 @@
 //API KEY-9f3436bf65c47b3988484cb92d3cb3be
 
-function clear(elementID)
-{
-  let container = document.querySelector(elementID);
-  container.innerHTML = "";
+function clear(elementID) {
+    let container = document.querySelector(elementID);
+    container.innerHTML = "";
 }
 
 const options = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': '7c01195a20mshbc9188a6ca4f5a5p1ce61cjsn5e640810eca6',
-		'X-RapidAPI-Host': 'odds.p.rapidapi.com'
-	}
+    method: 'GET',
+    headers: {
+        'X-RapidAPI-Key': '7c01195a20mshbc9188a6ca4f5a5p1ce61cjsn5e640810eca6',
+        'X-RapidAPI-Host': 'odds.p.rapidapi.com'
+    }
 };
 
-async function getData(url){
-  try {
-    let res = await fetch(url, options);
-    return await res.json();
-  } catch (error) {
-    console.log(error);
-  }
+async function getData(url) {
+    try {
+        let res = await fetch(url, options);
+        return await res.json();
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 async function showNBAScores() {
-	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=3'), 'containerNBA')
+    buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=3'), 'containerNBA')
 }
 
 async function showMLBScores() {
-	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?daysFrom=3'), 'containerMLB')	
+    buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?daysFrom=3'), 'containerMLB')
 }
 
 async function buildScoreboard(allScores, containerName) {
-  clear('.' + containerName);
+    clear('.' + containerName);
 
-  let html = '';
-  allScores.forEach(currentScore => {
-    let awayScore = 0;
-    let homeScore = 0;
+    let html = '';
+    allScores.forEach(currentScore => {
+        let awayScore = 0;
+        let homeScore = 0;
 
-    try {
-      let awayScoreRaw = currentScore.scores[1].score;
-      let homeScoreRaw = currentScore.scores[0].score;
+        try {
+            let awayScoreRaw = currentScore.scores[1].score;
+            let homeScoreRaw = currentScore.scores[0].score;
 
-      awayScoreRaw === null ? awayScore = 0 : awayScore = Number(awayScoreRaw);
-      homeScoreRaw === null ? homeScore = 0 : homeScore = Number(homeScoreRaw);
-    } catch (error) {
-      homeScore = 0;
-      awayScore = 0;
-    }
+            awayScoreRaw === null ? awayScore = 0 : awayScore = Number(awayScoreRaw);
+            homeScoreRaw === null ? homeScore = 0 : homeScore = Number(homeScoreRaw);
+        } catch (error) {
+            homeScore = 0;
+            awayScore = 0;
+        }
 
-    let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
-    let completedDate = formatDate(currentScore.commence_time);
+        let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
+        let completedDate = formatDate(currentScore.commence_time);
 
-    html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
-  });
+        html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
+    });
 
-  let container = document.querySelector('.' + containerName);
-  container.innerHTML = html;
+    let container = document.querySelector('.' + containerName);
+    container.innerHTML = html;
 }
 
-function formatDate(rawDate){
-  let dateTimeValue = Date.parse(rawDate);
-  let dateRaw = new Date(dateTimeValue);
+function formatDate(rawDate) {
+    let dateTimeValue = Date.parse(rawDate);
+    let dateRaw = new Date(dateTimeValue);
 
-  return dateRaw.toLocaleDateString() + " Start Time: " + dateRaw.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+    return dateRaw.toLocaleDateString() + " Start Time: " + dateRaw.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
 function generateScoreboard(currentScore, awayScore, homeScore, winningTeam, dateTimeValue) {
-  let htmlSegment = `<div class="outer"><div class="scoreboard">`;
-  let gameStatus;
+    let htmlSegment = `<div class="outer"><div class="scoreboard">`;
+    let gameStatus;
 
-  if(currentScore.completed){
-    gameStatus = "FINAL";
-  }
-  else {
-    gameStatus = ""
-  }
+    if (currentScore.completed) {
+        gameStatus = "FINAL";
+    }
+    else {
+        gameStatus = "";
+    }
 
-  if (winningTeam === currentScore.away_team) {
-    htmlSegment += `
+    if (winningTeam === currentScore.away_team) {
+        htmlSegment += `
 	<div class="date">${dateTimeValue}</div>
       <div class="team win">
         <div class="team">${currentScore.away_team}</div>
@@ -90,8 +89,8 @@ function generateScoreboard(currentScore, awayScore, homeScore, winningTeam, dat
         <div class="team">${currentScore.home_team}</div>
         <div class="score">${homeScore}</div>
       </div>`;
-  } else {
-    htmlSegment += `
+    } else {
+        htmlSegment += `
 	<div class="date">${dateTimeValue}</div>
       <div class="team lose">
         <div class="team">${currentScore.away_team}</div>
@@ -102,11 +101,11 @@ function generateScoreboard(currentScore, awayScore, homeScore, winningTeam, dat
         <div class="team">${currentScore.home_team}</div>
         <div class="score">${homeScore}</div>
       </div>`;
-  }
+    }
 
-  htmlSegment += `
+    htmlSegment += `
     </div>
   </div>`;
 
-  return htmlSegment;
+    return htmlSegment;
 }
