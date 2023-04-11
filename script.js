@@ -45,57 +45,58 @@ async function loadNBA() {
 		let compareHomeScore = homeScore;
 		let compareAwayScore = awayScore;
 
+		console.log("homeScore = " + homeScore);
+		console.log("awayScore = " + awayScore);
+
 		if(homeScore.length != 3){
 			compareHomeScore = "0" + homeScore;
 		}
 		if(awayScore.length != 3){
 			compareAwayScore = "0" + awayScore;
 		}
-		if(compareAwayScore > compareHomeScore){
-			html += awayTeamWin(currentScore, awayScore, homeScore);
-		} 
-		if(awayScore < homeScore){
-			html += homeTeamWin(currentScore, awayScore, homeScore);
-		}
+
+		let winningTeam = awayScore < homeScore ? "home" : "away";
+		html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam);
     });
 
     let container = document.querySelector('.container');
     container.innerHTML = html;
 }
 
-function homeTeamWin(currentScore, awayScore, homeScore){
-	let htmlSegment =`<div class="outer">
-			<div class="scoreboard">
-        		<div class="team lose">
-            		<div class="team">${currentScore.away_team}</div>
-            		<div class="score">${awayScore}</div>
-          		</div>
-          		<div class="divider"><p>FINAL</p></div>
-          		<div class="team win">
-            		<div class="team">${currentScore.home_team}</div>
-            		<div class="score">${homeScore}</div>
-       			</div>
-			</div>
+function generateScoreboard(currentScore, awayScore, homeScore, winningTeam) {
+	let htmlSegment = `<div class="outer">
+	  <div class="scoreboard">`;
+  
+	if (winningTeam === 'away') {
+	  htmlSegment += `
+		<div class="team win">
+		  <div class="team">${currentScore.away_team}</div>
+		  <div class="score">${awayScore}</div>
+		</div>
+		<div class="divider"><p>FINAL</p></div>
+		<div class="team lose">
+		  <div class="team">${currentScore.home_team}</div>
+		  <div class="score">${homeScore}</div>
 		</div>`;
-        return htmlSegment;
-}
-
-function awayTeamWin(currentScore, awayScore, homeScore){
-	let htmlSegment =`<div class="outer">
-			<div class="scoreboard">
-        		<div class="team win">
-            		<div class="team">${currentScore.away_team}</div>
-            		<div class="score">${awayScore}</div>
-          		</div>
-          		<div class="divider"><p>FINAL</p></div>
-          		<div class="team lose">
-            		<div class="team">${currentScore.home_team}</div>
-            		<div class="score">${homeScore}</div>
-       			</div>
-			</div>
+	} else {
+	  htmlSegment += `
+		<div class="team lose">
+		  <div class="team">${currentScore.away_team}</div>
+		  <div class="score">${awayScore}</div>
+		</div>
+		<div class="divider"><p>FINAL</p></div>
+		<div class="team win">
+		  <div class="team">${currentScore.home_team}</div>
+		  <div class="score">${homeScore}</div>
 		</div>`;
-        return htmlSegment;
-}
+	}
+  
+	htmlSegment += `
+	  </div>
+	</div>`;
+  
+	return htmlSegment;
+  }
 
 loadNBA();
 
