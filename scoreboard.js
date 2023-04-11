@@ -2,8 +2,8 @@
 
 function clear(elementID)
 {
-    let container = document.querySelector(elementID);
-    container.innerHTML = "";
+  let container = document.querySelector(elementID);
+  container.innerHTML = "";
 }
 
 const options = {
@@ -14,56 +14,17 @@ const options = {
 	}
 };
 
-let data;
-
-fetch(url, options)
-	.then(response => response.json())
-	.then(response => {
-		data = response;
-		// You can also do something with the data here
-	  })
-	.catch(err => console.error(err));
-
 async function getData(url){
-	try {
-		let res = await fetch(url, options);
-		return await res.json();
-	} catch (error) {
-		console.log(error);
-	}
+  try {
+    let res = await fetch(url, options);
+    return await res.json();
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function showNBAScores() {
 	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=3'), 'containerNBA')
-}
-
-async function loadNBA() {
-	clearNBA("containerNBA");
-
-    let allScores = await getNBA();
-    let html = '';
-    allScores.forEach(currentScore => {
-		let awayScore = 0;
-		let homeScore = 0;
-		try {
-			let awayScoreRaw = currentScore.scores[1].score;
-			let homeScoreRaw = currentScore.scores[0].score;
-
-			awayScoreRaw === null ? awayScore = 0 : awayScore = Number(awayScoreRaw);
-			homeScoreRaw === null ? homeScore = 0 : homeScore = Number(homeScoreRaw);
-		} catch (error) {
-			homeScore = 0;
-			awayScore = 0;
-		}
-
-        let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
-		let completedDate = formatDate(currentScore.completed_date);
-    html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
-
-    });
-
-    let container = document.querySelector('.containerNBA');
-    container.innerHTML = html;
 }
 
 async function showMLBScores() {
@@ -71,52 +32,52 @@ async function showMLBScores() {
 }
 
 async function buildScoreboard(allScores, containerName) {
-	clear('.' + containerName);
+  clear('.' + containerName);
 
-    let html = '';
-    allScores.forEach(currentScore => {
-		let awayScore = 0;
-		let homeScore = 0;
-		try {
-			let awayScoreRaw = currentScore.scores[1].score;
-			let homeScoreRaw = currentScore.scores[0].score;
+  let html = '';
+  allScores.forEach(currentScore => {
+    let awayScore = 0;
+    let homeScore = 0;
 
-			awayScoreRaw === null ? awayScore = 0 : awayScore = Number(awayScoreRaw);
-			homeScoreRaw === null ? homeScore = 0 : homeScore = Number(homeScoreRaw);
-		} catch (error) {
-			homeScore = 0;
-			awayScore = 0;
-		}
+    try {
+      let awayScoreRaw = currentScore.scores[1].score;
+      let homeScoreRaw = currentScore.scores[0].score;
 
-        let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
-		let completedDate = formatDate(currentScore.completed_date);
+      awayScoreRaw === null ? awayScore = 0 : awayScore = Number(awayScoreRaw);
+      homeScoreRaw === null ? homeScore = 0 : homeScore = Number(homeScoreRaw);
+    } catch (error) {
+      homeScore = 0;
+      awayScore = 0;
+    }
+
+    let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
+    let completedDate = formatDate(currentScore.commence_time);
 
     html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
+  });
 
-});
-
-let container = document.querySelector('.' + containerName);
-container.innerHTML = html;
+  let container = document.querySelector('.' + containerName);
+  container.innerHTML = html;
 }
 
 function formatDate(rawDate){
-	let dateTimeValue = Date.parse(rawDate);
-	let dateRaw = new Date(dateTimeValue);
+  let dateTimeValue = Date.parse(rawDate);
+  let dateRaw = new Date(dateTimeValue);
 
-	return dateRaw.toLocaleDateString() + " Start Time: " + dateRaw.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+  return dateRaw.toLocaleDateString() + " Start Time: " + dateRaw.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 }
 
 function generateScoreboard(currentScore, awayScore, homeScore, winningTeam, dateTimeValue) {
-  let htmlSegment = `<div class="outer">
-    <div class="scoreboard">`;
+  let htmlSegment = `<div class="outer"><div class="scoreboard">`;
+  let gameStatus;
 
-	let gameStatus;
-    if(currentScore.completed){
-        gameStatus = "FINAL";
-    }
-    else{
-        gameStatus = ""
-    }
+  if(currentScore.completed){
+    gameStatus = "FINAL";
+  }
+  else {
+    gameStatus = ""
+  }
+
   if (winningTeam === currentScore.away_team) {
     htmlSegment += `
 	<div class="date">${dateTimeValue}</div>
