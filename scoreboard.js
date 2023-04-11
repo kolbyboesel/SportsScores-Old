@@ -8,8 +8,7 @@ const options = {
 	}
 };
 
-async function getNBA() {
-	let url = 'https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=3';
+async function getData(url) {
 	try {
 		let res = await fetch(url, options);
 		return await res.json();
@@ -18,8 +17,14 @@ async function getNBA() {
 	}
 }
 
-async function loadNBA() {
-    let allScores = await getNBA();
+async function showNBAScores() {
+    buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=3'), 'containerNBA');
+}
+async function showMLBScores() {
+    buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?daysFrom=3'), 'containerMLB');
+}
+
+async function buildScoreboard(allScores, containerName) {
     let html = '';
     allScores.forEach(currentScore => {
 		let awayScore = 0;
@@ -41,45 +46,8 @@ async function loadNBA() {
     	html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
     });
 
-    let container = document.querySelector('.containerNBA');
+    let container = document.querySelector('.' + containerName);
     container.innerHTML = html;
-}
-
-async function getMLB() {
-	let url = 'https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?daysFrom=3';
-	try {
-		let res = await fetch(url, options);
-		return await res.json();
-	} catch (error) {
-		console.log(error);
-	}
-}
-
-async function loadMLB() {
-    let allScores = await getMLB();
-    let html = '';
-    allScores.forEach(currentScore => {
-		let awayScore = 0;
-		let homeScore = 0;
-		try {
-			let awayScoreRaw = currentScore.scores[1].score;
-			let homeScoreRaw = currentScore.scores[0].score;
-
-			awayScoreRaw === null ? awayScore = 0 : awayScore = Number(awayScoreRaw);
-			homeScoreRaw === null ? homeScore = 0 : homeScore = Number(homeScoreRaw);
-		} catch (error) {
-			homeScore = 0;
-			awayScore = 0;
-		}
-
-		let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
-		let completedDate = formatDate(currentScore.commence_time);
-
-		html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
-	});
-
-	let container = document.querySelector('.containerMLB');
-	container.innerHTML = html;
 }
 
 function formatDate(rawDate) {
