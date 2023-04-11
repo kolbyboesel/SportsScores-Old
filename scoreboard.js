@@ -1,5 +1,11 @@
 //API KEY-9f3436bf65c47b3988484cb92d3cb3be
 
+function clear(elementID)
+{
+    let container = document.querySelector(elementID);
+    container.innerHTML = "";
+}
+
 const options = {
 	method: 'GET',
 	headers: {
@@ -8,7 +14,17 @@ const options = {
 	}
 };
 
-async function getData(url) {
+let data;
+
+fetch(url, options)
+	.then(response => response.json())
+	.then(response => {
+		data = response;
+		// You can also do something with the data here
+	  })
+	.catch(err => console.error(err));
+
+async function getData(url){
 	try {
 		let res = await fetch(url, options);
 		return await res.json();
@@ -18,13 +34,13 @@ async function getData(url) {
 }
 
 async function showNBAScores() {
-    buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=3'), 'containerNBA');
-}
-async function showMLBScores() {
-    buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?daysFrom=3'), 'containerMLB');
+	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=3'), 'containerNBA')
 }
 
-async function buildScoreboard(allScores, containerName) {
+async function loadNBA() {
+	clearNBA("containerNBA");
+
+    let allScores = await getNBA();
     let html = '';
     allScores.forEach(currentScore => {
 		let awayScore = 0;
@@ -40,8 +56,9 @@ async function buildScoreboard(allScores, containerName) {
 			awayScore = 0;
 		}
 
-		let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
-		let completedDate = formatDate(currentScore.commence_time);
+        let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
+		let completedDate = formatDate(currentScore.completed_date);
+    html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
 
     	html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
     });
@@ -50,11 +67,44 @@ async function buildScoreboard(allScores, containerName) {
     container.innerHTML = html;
 }
 
-function formatDate(rawDate) {
+async function showMLBScores() {
+	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?daysFrom=3'), 'containerMLB')	
+}
+
+async function buildScoreboard(allScores, containerName) {
+	clear('.' + containerName);
+
+    let html = '';
+    allScores.forEach(currentScore => {
+		let awayScore = 0;
+		let homeScore = 0;
+		try {
+			let awayScoreRaw = currentScore.scores[1].score;
+			let homeScoreRaw = currentScore.scores[0].score;
+
+			awayScoreRaw === null ? awayScore = 0 : awayScore = Number(awayScoreRaw);
+			homeScoreRaw === null ? homeScore = 0 : homeScore = Number(homeScoreRaw);
+		} catch (error) {
+			homeScore = 0;
+			awayScore = 0;
+		}
+
+        let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
+		let completedDate = formatDate(currentScore.completed_date);
+
+    html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
+
+});
+
+let container = document.querySelector('.' + containerName);
+container.innerHTML = html;
+}
+
+function formatDate(rawDate){
 	let dateTimeValue = Date.parse(rawDate);
 	let dateRaw = new Date(dateTimeValue);
 
-	return dateRaw.toLocaleDateString() + "  Start Time: " + dateRaw.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+	return dateRaw.toLocaleDateString() + " Start Time: " + dateRaw.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 }
 
 function generateScoreboard(currentScore, awayScore, homeScore, winningTeam, dateTimeValue) {
@@ -100,4 +150,3 @@ function generateScoreboard(currentScore, awayScore, homeScore, winningTeam, dat
 
   return htmlSegment;
 }
-
