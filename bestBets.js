@@ -10,7 +10,7 @@ function clearMLB()
 	container.innerHTML = "";
 }
 
-const betData = {
+const betPredict = {
 	method: 'GET',
 	headers: {
 		'X-RapidAPI-Key': '7c01195a20mshbc9188a6ca4f5a5p1ce61cjsn5e640810eca6',
@@ -18,24 +18,39 @@ const betData = {
 	}
 };
 
-async function getData(url){
+fetch(url, betPredict)
+	.then(response => response.json())
+	.then(response => console.log(response))
+	.catch(err => console.error(err));
+
+async function getBetData(url){
   try {
-    let res = await fetch(url, betData);
+    let res = await fetch(url, betPredict);
     return await res.json();
   } catch (error) {
     console.log(error);
   }
 }
 
-let todaysDate = new Date();
-todaysDate.format('YYYY-MM-DD');
-
 async function showNBABets() {
-    buildBestBetBoard(await getData('https://betigolo-predictions.p.rapidapi.com/basketball/2023-04-13'), 'containerNBA')
+    buildBestBetBoard(await getBetData('https://betigolo-predictions.p.rapidapi.com/basketball/2023-04-12'), 'containerNBA')
 }
 
 async function showMLBBets() {
-	buildBestBetBoard(await getData('https://betigolo-predictions.p.rapidapi.com/baseball/2023-04-13'), 'containerMLB')	
+	buildBestBetBoard(await getBetData('https://betigolo-predictions.p.rapidapi.com/baseball/2023-04-12'), 'containerMLB')	
+}
+
+async function showNFLBets() {
+	buildBestBetBoard(await getData('https://betigolo-predictions.p.rapidapi.com/football/2023-04-12'), 'containerNFL')	
+}
+
+async function showNHLBets() {
+	buildBestBetBoard(await getData('https://betigolo-predictions.p.rapidapi.com/icehockey/2023-04-12'), 'containerNHL')	
+}
+
+function round(value, precision) {
+    var multiplier = Math.pow(10, precision || 0);
+    return Math.round(value * multiplier) / multiplier;
 }
 
 async function buildBestBetBoard(allOdds, containerName) {
@@ -47,159 +62,37 @@ clear(containerName);
     let awayTeam = 0;
     let homeMoneylineVal = 0;
     let awayMoneylineVal = 0;
-    if(currentGame.bookmakers[0].markets.length === 1){
-        currentMarket = currentGame.bookmakers[0].markets[0].key;
-        if(currentMarket === "spreads"){
-            if(currentGame.away_team == currentGame.bookmakers[0].markets[0].outcomes[0].name){
-                awaySpread = currentGame.bookmakers[0].markets[0].outcomes[0].point;
-                awaySpreadOdds = currentGame.bookmakers[0].markets[0].outcomes[0].price;
-                homeSpread = currentGame.bookmakers[0].markets[0].outcomes[1].point;
-                homeSpreadOdds = currentGame.bookmakers[0].markets[0].outcomes[1].price;
-            }
-            else{
-                awaySpread = currentGame.bookmakers[0].markets[0].outcomes[1].point;
-                awaySpreadOdds = currentGame.bookmakers[0].markets[0].outcomes[1].price;
-                homeSpread = currentGame.bookmakers[0].markets[0].outcomes[0].point;
-                homeSpreadOdds = currentGame.bookmakers[0].markets[0].outcomes[0].price;
-            }
-        }
-        if(currentMarket === "h2h"){
-            if(currentGame.away_team == currentGame.bookmakers[0].markets[0].outcomes[0].name){
-                awayMoneyline = currentGame.bookmakers[0].markets[0].outcomes[0].price;
-                homeMoneyline = currentGame.bookmakers[0].markets[0].outcomes[1].price;
-            }
-        }
-        if(currentMarket === "totals"){
-            if(currentGame.bookmakers[0].markets[0].outcomes[0].name == "Over"){
-                overValue = currentGame.bookmakers[0].markets[0].outcomes[0].point;
-                overOdds = currentGame.bookmakers[0].markets[0].outcomes[0].price;
-                underValue = currentGame.bookmakers[0].markets[0].outcomes[1].point;
-                underOdds = currentGame.bookmakers[0].markets[0].outcomes[1].price;
-            }
-            else{
-                overValue = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                overOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                underValue = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                underOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-            }
-        }
-    }
-    if(currentGame.bookmakers[0].markets.length === 2){
-        for(let i = 0; i < 2; i++){
-            currentMarket = currentGame.bookmakers[0].markets[i].key;
-                if(currentMarket === "spreads"){
-                    if(currentGame.away_team == currentGame.bookmakers[0].markets[i].outcomes[0].name){
-                        awaySpread = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        awaySpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                        homeSpread = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        homeSpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                    }
-                    else{
-                        awaySpread = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        awaySpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                        homeSpread = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        homeSpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                    }
-                }else if(currentMarket === "h2h"){
-                    if(currentGame.away_team == currentGame.bookmakers[0].markets[i].outcomes[0].name){
-                        awayMoneyline = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                        homeMoneyline = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                    }
-                }else if(currentMarket === "totals"){
-                    if(currentGame.bookmakers[0].markets[i].outcomes[0].name == "Over"){
-                        overValue = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        overOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                        underValue = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        underOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                    }
-                    else{
-                        overValue = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        overOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                        underValue = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        underOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                    }
-                }
-        }
-    }
-    if(currentGame.bookmakers[0].markets.length === 3){
-        for(let i = 0; i < 3; i++){
-            currentMarket = currentGame.bookmakers[0].markets[i].key;
-                if(currentMarket === "spreads"){
-                    if(currentGame.away_team == currentGame.bookmakers[0].markets[i].outcomes[0].name){
-                        awaySpread = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        awaySpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                        homeSpread = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        homeSpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                    }
-                    else{
-                        awaySpread = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        awaySpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                        homeSpread = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        homeSpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                    }
-                } else if(currentMarket === "h2h"){
-                    if(currentGame.away_team == currentGame.bookmakers[0].markets[i].outcomes[0].name){
-                        awayMoneyline = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                        homeMoneyline = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                    }
-                    else{
-                        homeMoneyline = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                        awayMoneyline = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                    }
-                } else if(currentMarket === "totals"){
-                    if(currentGame.bookmakers[0].markets[i].outcomes[0].name == "Over"){
-                        overValue = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        overOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                        underValue = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        underOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                    }
-                    else{
-                        overValue = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        overOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                        underValue = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        underOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                    }
-                }
-        }
-    }
+    if(currentGame.country_name === "USA"){
+        homeTeam = currentGame.home_team_name;
+        awayTeam = currentGame.away_team_name;
+        homeMoneylineVal = round(currentGame.rank_htw_nt, 2);
+        awayMoneylineVal = round(currentGame.rank_atw_nt, 2);
+        html += generateBestBetsBoard(currentGame, homeTeam, awayTeam, homeMoneylineVal, awayMoneylineVal);
 
-    let completedDate = formatDate(currentGame.commence_time);
-
-    html += generateOddsBoard(currentGame, awaySpread, homeSpread, awaySpreadOdds, homeSpreadOdds, awayMoneyline, homeMoneyline, overValue, underValue, overOdds, underOdds, completedDate);
+    }
   });
   let container = document.querySelector('.' + containerName);
   container.innerHTML = html;
 }
 
-function formatDate(rawDate){
-  let dateTimeValue = Date.parse(rawDate);
-  let dateRaw = new Date(dateTimeValue);
-
-  return dateRaw.toLocaleDateString() + " Start Time: " + dateRaw.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-}
-
-function generateOddsBoard(currentGame, awaySpread, homeSpread, awaySpreadOdds, homeSpreadOdds, awayMoneyline, homeMoneyline, overValue, underValue, overOdds, underOdds, dateTimeValue) {
-  let htmlSegment = `<div class="outerBetBoard"><div class="betBoard">`;
-  let gameStatus;
+function generateBestBetsBoard(currentGame, homeTeam, awayTeam, homeMoneylineVal, awayMoneylineVal) {
+  let htmlSegment = `<div class="outerBestBets"><div class="bestBets">`;
 
     htmlSegment += `<div class="header">
-        <div class="headerDate">Date: ${dateTimeValue}</div>
-        <div class="headerElement">Spread</div>
-        <div class="headerElement">Over/Under</div>
-        <div class="headerElement">Moneyline</div>
+        <div class="headerElement-team">Team Name</div>
+        <div class="headerElement-best">Moneyline Value</div>
+        <div class="headerElement-best">% Odds to Hit</div>
       </div>
-      <div class="team win">
-        <div class="betteam">${currentGame.away_team}</div>
-        <div class="betTeamElement">${awaySpread + "(" + awaySpreadOdds + ")"}</div>
-        <div class="betTeamElement">${overValue + "(" + overOdds + ")"}</div>
-        <div class="betTeamElement">${awayMoneyline}</div>
+      <div class="team">
+        <div class="bestBetTeam">${awayTeam}</div>
+        <div class="bestBetElement">-170</div>
+        <div class="bestBetElement">${awayMoneylineVal * 100}</div>
       </div>
-      <div class="betdivider"></div>
-      <div class="team lose">
-        <div class="betteam">${currentGame.home_team}</div>
-        <div class="betTeamElement">${homeSpread + "(" + homeSpreadOdds + ")"}</div>
-        <div class="betTeamElement">${underValue + "(" + underOdds + ")"}</div>
-        <div class="betTeamElement">${homeMoneyline}</div>
+     
+      <div class="team">
+        <div class="bestBetTeam">${homeTeam}</div>
+        <div class="bestBetElement">140</div>
+        <div class="bestBetElement">${homeMoneylineVal * 100}</div>
       </div>`;
 
       htmlSegment += `

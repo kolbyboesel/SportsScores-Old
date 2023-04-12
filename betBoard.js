@@ -10,6 +10,14 @@ function clearMLB()
 	container.innerHTML = "";
 }
 
+options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '7c01195a20mshbc9188a6ca4f5a5p1ce61cjsn5e640810eca6',
+		'X-RapidAPI-Host': 'odds.p.rapidapi.com'
+	}
+};
+
 async function getData(url){
   try {
     let res = await fetch(url, options);

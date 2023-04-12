@@ -25,6 +25,15 @@ body {
   display: inline-block;
 }
 
+.outerBestBets {
+  width: 40%;
+  height: 200px;
+  margin: 5%;
+  border: 10px solid rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  display: inline-block;
+}
+
   .scoreboard {
     width: 275px;
     display: inline-block;
@@ -37,6 +46,16 @@ body {
 }
 
 .betBoard {
+  width: 100%;
+  border-style: hidden;
+  border-width: 20px;
+  height: 100%;
+  align-items: center;
+  background: linear-gradient(-60deg, #46404f 53%, #4B4452 53%);
+  box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
+.bestBets {
   width: 100%;
   border-style: hidden;
   border-width: 20px;
@@ -69,6 +88,7 @@ body {
     padding-left: 10px;
     letter-spacing: 1px;
   }
+
   .headerDate {
     border-width: 1px;
     display: flex;
@@ -86,6 +106,26 @@ body {
     display: flex;
     border-color: black;
     width: 20%;
+    flex-shrink: 0;
+    justify-content: center;
+    letter-spacing: 2px;
+  }
+
+  .headerElement-team{
+    border-width: 1px;
+    display: flex;
+    border-color: black;
+    width: 50%;
+    flex-shrink: 0;
+    justify-content: left;
+    letter-spacing: 2px;
+  }
+
+  .headerElement-best{
+    border-width: 1px;
+    display: flex;
+    border-color: black;
+    width: 25%;
     flex-shrink: 0;
     justify-content: center;
     letter-spacing: 2px;
@@ -116,6 +156,22 @@ body {
   .betTeamElement {
     flex-shrink: 0;
     width: 20%;
+    display: flex;
+    justify-content: center;
+    letter-spacing: 2px;
+  }
+
+  .bestBetTeam {
+    flex-shrink: 0;
+    width: 50%;
+    display: flex;
+    justify-content: left;
+    letter-spacing: 2px;
+  }
+
+  .bestBetElement {
+    flex-shrink: 0;
+    width: 25%;
     display: flex;
     justify-content: center;
     letter-spacing: 2px;
