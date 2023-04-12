@@ -2,17 +2,18 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    background: beige;
+    background: beige;    
     font-family: Oxygen, sans-serif;
   }
 
   .outer {
     width: 295px;
     height: 170px;
-    margin: 2%;
     border: 10px solid rgba(0, 0, 0, 0.25);
     border-radius: 5px;
-    display: inline-block;
+    margin: 2%;
+    align-items: right;
+    display:inline-block;
 }
 
 .outerBetBoard {
@@ -26,6 +27,7 @@ body {
 
   .scoreboard {
     width: 275px;
+    display: inline-block;
     border-style: hidden;
     border-width: 20px;
     height: 150px;

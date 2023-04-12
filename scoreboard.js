@@ -77,8 +77,7 @@ function generateScoreboard(currentScore, awayScore, homeScore, winningTeam, dat
   }
 
   if (winningTeam === currentScore.away_team) {
-    htmlSegment += `
-	<div class="date">${dateTimeValue}</div>
+    htmlSegment += `<div class="date">${dateTimeValue}</div>
       <div class="team win">
         <div class="team">${currentScore.away_team}</div>
         <div class="score">${awayScore}</div>
@@ -89,8 +88,7 @@ function generateScoreboard(currentScore, awayScore, homeScore, winningTeam, dat
         <div class="score">${homeScore}</div>
       </div>`;
   } else {
-    htmlSegment += `
-	<div class="date">${dateTimeValue}</div>
+    htmlSegment += `<div class="date">${dateTimeValue}</div>
       <div class="team lose">
         <div class="team">${currentScore.away_team}</div>
         <div class="score">${awayScore}</div>
@@ -102,8 +100,7 @@ function generateScoreboard(currentScore, awayScore, homeScore, winningTeam, dat
       </div>`;
   }
 
-  htmlSegment += `
-    </div>
+  htmlSegment += `</div>
   </div>`;
 
   return htmlSegment;

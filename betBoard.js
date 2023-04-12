@@ -1,7 +1,12 @@
 //API KEY-9f3436bf65c47b3988484cb92d3cb3be
 
-function clear(elementID)
-{  	let container = document.querySelector('.' + elementID);
+function clearNBA()
+{  	let container = document.querySelector('.containerNBA');
+	container.innerHTML = "";
+}
+
+function clearMLB()
+{  	let container = document.querySelector('.containerMLB');
 	container.innerHTML = "";
 }
 
@@ -172,8 +177,7 @@ function generateOddsBoard(currentGame, awaySpread, homeSpread, awaySpreadOdds, 
   let htmlSegment = `<div class="outerBetBoard"><div class="betBoard">`;
   let gameStatus;
 
-    htmlSegment += `
-	  <div class="header">
+    htmlSegment += `<div class="header">
         <div class="headerDate">Date: ${dateTimeValue}</div>
         <div class="headerElement">Spread</div>
         <div class="headerElement">Over/Under</div>
@@ -193,9 +197,9 @@ function generateOddsBoard(currentGame, awaySpread, homeSpread, awaySpreadOdds, 
         <div class="betTeamElement">${homeMoneyline}</div>
       </div>`;
 
-  htmlSegment += `
-    </div>
-  </div>`;
+      htmlSegment += `
+      </div>
+    </div>`;
 
   return htmlSegment;
 }
