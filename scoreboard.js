@@ -27,7 +27,7 @@ async function showNBAScores() {
 }
 
 async function showMLBScores() {
-	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?'), 'containerMLB')	
+	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?daysFrom=1'), 'containerMLB')	
 }
 
 async function buildScoreboard(allScores, containerName) {
