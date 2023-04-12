@@ -1,8 +1,8 @@
 //API KEY-9f3436bf65c47b3988484cb92d3cb3be
 
-function clear(elementID) {
-    let container = document.querySelector(elementID);
-    container.innerHTML = "";
+function clear(elementID)
+{  	let container = document.querySelector('.' + elementID);
+	container.innerHTML = "";
 }
 
 const options = {
@@ -23,15 +23,15 @@ async function getData(url) {
 }
 
 async function showNBAScores() {
-    buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=3'), 'containerNBA')
+	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=1'), 'containerNBA')
 }
 
 async function showMLBScores() {
-    buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?daysFrom=3'), 'containerMLB')
+	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?daysFrom=1'), 'containerMLB')	
 }
 
 async function buildScoreboard(allScores, containerName) {
-    clear('.' + containerName);
+	clear(containerName);
 
     let html = '';
     allScores.forEach(currentScore => {
@@ -52,11 +52,10 @@ async function buildScoreboard(allScores, containerName) {
         let winningTeam = awayScore < homeScore ? currentScore.home_team : currentScore.away_team;
         let completedDate = formatDate(currentScore.commence_time);
 
-        html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
-    });
-
-    let container = document.querySelector('.' + containerName);
-    container.innerHTML = html;
+    html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
+  });
+  let container = document.querySelector('.' + containerName);
+  container.innerHTML = html;
 }
 
 function formatDate(rawDate) {
@@ -77,9 +76,8 @@ function generateScoreboard(currentScore, awayScore, homeScore, winningTeam, dat
         gameStatus = "";
     }
 
-    if (winningTeam === currentScore.away_team) {
-        htmlSegment += `
-	<div class="date">${dateTimeValue}</div>
+  if (winningTeam === currentScore.away_team) {
+    htmlSegment += `<div class="date">${dateTimeValue}</div>
       <div class="team win">
         <div class="team">${currentScore.away_team}</div>
         <div class="score">${awayScore}</div>
@@ -89,9 +87,8 @@ function generateScoreboard(currentScore, awayScore, homeScore, winningTeam, dat
         <div class="team">${currentScore.home_team}</div>
         <div class="score">${homeScore}</div>
       </div>`;
-    } else {
-        htmlSegment += `
-	<div class="date">${dateTimeValue}</div>
+  } else {
+    htmlSegment += `<div class="date">${dateTimeValue}</div>
       <div class="team lose">
         <div class="team">${currentScore.away_team}</div>
         <div class="score">${awayScore}</div>
@@ -103,8 +100,7 @@ function generateScoreboard(currentScore, awayScore, homeScore, winningTeam, dat
       </div>`;
     }
 
-    htmlSegment += `
-    </div>
+  htmlSegment += `</div>
   </div>`;
 
     return htmlSegment;
