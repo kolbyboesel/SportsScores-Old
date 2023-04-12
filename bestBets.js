@@ -41,11 +41,11 @@ async function showMLBBets() {
 }
 
 async function showNFLBets() {
-	buildBestBetBoard(await getData('https://betigolo-predictions.p.rapidapi.com/football/2023-04-12'), 'containerNFL')	
+	buildBestBetBoard(await getBetData('https://betigolo-predictions.p.rapidapi.com/football/2023-04-12'), 'containerNFL')	
 }
 
 async function showNHLBets() {
-	buildBestBetBoard(await getData('https://betigolo-predictions.p.rapidapi.com/icehockey/2023-04-12'), 'containerNHL')	
+	buildBestBetBoard(await getBetData('https://betigolo-predictions.p.rapidapi.com/icehockey/2023-04-13'), 'containerNHL')	
 }
 
 function round(value, precision) {

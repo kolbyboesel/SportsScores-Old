@@ -81,7 +81,7 @@ function generateScoreboard(currentScore, awayScore, homeScore, winningTeam, dat
     gameStatus = "FINAL";
   }
   else {
-    gameStatus = "INP/"
+    gameStatus = "INP/TBD"
   }
 
   if (winningTeam === currentScore.away_team) {
