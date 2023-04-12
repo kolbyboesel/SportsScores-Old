@@ -27,7 +27,15 @@ async function showNBAScores() {
 }
 
 async function showMLBScores() {
-	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?daysFrom=1'), 'containerMLB')	
+	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?daysFrom=1'), 'containerMLB')
+}
+
+async function showNFLScores() {
+	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/americanfootball_nfl/scores?daysFrom=1'), 'containerNFL')
+}
+
+async function showNHLScores(){
+	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/icehockey_nhl/scores?daysFrom=1'), 'containerNHL')
 }
 
 async function buildScoreboard(allScores, containerName) {

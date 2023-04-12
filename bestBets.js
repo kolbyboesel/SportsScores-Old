@@ -10,46 +10,43 @@ function clearMLB()
 	container.innerHTML = "";
 }
 
+const betData = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '7c01195a20mshbc9188a6ca4f5a5p1ce61cjsn5e640810eca6',
+		'X-RapidAPI-Host': 'betigolo-predictions.p.rapidapi.com'
+	}
+};
+
 async function getData(url){
   try {
-    let res = await fetch(url, options);
+    let res = await fetch(url, betData);
     return await res.json();
   } catch (error) {
     console.log(error);
   }
 }
 
-async function showNBAOdds() {
-	buildOddsBoard(await getData('https://odds.p.rapidapi.com/v4/sports/basketball_nba/odds?regions=us&oddsFormat=american&markets=spreads,totals,h2h&dateFormat=iso'), 'containerNBA')
+let todaysDate = new Date();
+todaysDate.format('YYYY-MM-DD');
+
+async function showNBABets() {
+    buildBestBetBoard(await getData('https://betigolo-predictions.p.rapidapi.com/basketball/2023-04-13'), 'containerNBA')
 }
 
-async function showMLBOdds() {
-	buildOddsBoard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/odds?regions=us&oddsFormat=american&markets=spreads,totals,h2h&dateFormat=iso'), 'containerMLB')	
+async function showMLBBets() {
+	buildBestBetBoard(await getData('https://betigolo-predictions.p.rapidapi.com/baseball/2023-04-13'), 'containerMLB')	
 }
 
-async function showNFLOdds() {
-	buildOddsBoard(await getData('https://odds.p.rapidapi.com/v4/sports/americanfootball_nfl/odds?regions=us&oddsFormat=american&markets=spreads,totals,h2h&dateFormat=iso'), 'containerNFL')	
-}
-
-async function showNHLOdds() {
-	buildOddsBoard(await getData('https://odds.p.rapidapi.com/v4/sports/icehockey_nhl/odds?regions=us&oddsFormat=american&markets=spreads,totals,h2h&dateFormat=iso'), 'containerNHL')	
-}
-
-async function buildOddsBoard(allOdds, containerName) {
+async function buildBestBetBoard(allOdds, containerName) {
 clear(containerName);
 
   let html = '';
   allOdds.forEach(currentGame => {
-    let awaySpread = 0;
-    let homeSpread = 0;
-    let homeSpreadOdds = 0;
-    let awaySpreadOdds = 0;
-    let awayMoneyline = 0;
-    let homeMoneyline = 0;
-    let overValue = 0;
-    let underValue = 0;
-    let overOdds = 0;
-    let underOdds = 0;
+    let homeTeam = 0;
+    let awayTeam = 0;
+    let homeMoneylineVal = 0;
+    let awayMoneylineVal = 0;
     if(currentGame.bookmakers[0].markets.length === 1){
         currentMarket = currentGame.bookmakers[0].markets[0].key;
         if(currentMarket === "spreads"){
