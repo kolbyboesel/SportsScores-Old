@@ -60,6 +60,8 @@ clear(containerName);
   allOdds.forEach(currentGame => {
     let homeTeam = 0;
     let awayTeam = 0;
+    let homeMoneylinePrice = 0;
+    let awayMoneylinePrice = 0;
     let homeMoneylineVal = 0;
     let awayMoneylineVal = 0;
     if(containerName === 'containerMLB' && currentGame.country_name === "USA" && currentGame.league_name === "MLB"){
@@ -67,6 +69,8 @@ clear(containerName);
         awayTeam = currentGame.away_team_name;
         homeMoneylineVal = round(currentGame.rank_htw_nt, 2);
         awayMoneylineVal = round(currentGame.rank_atw_nt, 2);
+        homeMoneylinePrice = getHomeMoneylinePrice(homeTeam, currentGame.league_name);
+        awayMoneylinePrice = getAwayMoneylinePrice(awayTeam, currentGame.league_name);
         html += generateBestBetsBoard(currentGame, homeTeam, awayTeam, homeMoneylineVal, awayMoneylineVal);
     }
     if(containerName != 'containerMLB' && currentGame.country_name === "USA"){
@@ -74,14 +78,16 @@ clear(containerName);
         awayTeam = currentGame.away_team_name;
         homeMoneylineVal = round(currentGame.rank_htw_nt, 2);
         awayMoneylineVal = round(currentGame.rank_atw_nt, 2);
-        html += generateBestBetsBoard(currentGame, homeTeam, awayTeam, homeMoneylineVal, awayMoneylineVal);
+        homeMoneylinePrice = getHomeMoneylinePrice(homeTeam, currentGame.league_name);
+        awayMoneylinePrice = getAwayMoneylinePrice(awayTeam, currentGame.league_name);
+        html += generateBestBetsBoard(currentGame, homeTeam, awayTeam, homeMoneylineVal, awayMoneylineVal, homeMoneylinePrice, awayMoneylinePrice);
     }
   });
   let container = document.querySelector('.' + containerName);
   container.innerHTML = html;
 }
 
-function generateBestBetsBoard(currentGame, homeTeam, awayTeam, homeMoneylineVal, awayMoneylineVal) {
+function generateBestBetsBoard(currentGame, homeTeam, awayTeam, homeMoneylineVal, awayMoneylineVal, homeMoneylinePrice, awayMoneylinePrice) {
   let htmlSegment = `<div class="outerBestBets"><div class="bestBets">`;
 
     htmlSegment += `<div class="header">
@@ -91,13 +97,13 @@ function generateBestBetsBoard(currentGame, homeTeam, awayTeam, homeMoneylineVal
       </div>
       <div class="team">
         <div class="bestBetTeam">${awayTeam}</div>
-        <div class="bestBetElement">-170</div>
+        <div class="bestBetElement">${awayMoneylinePrice}</div>
         <div class="bestBetElement">${awayMoneylineVal * 100}</div>
       </div>
      
       <div class="team">
         <div class="bestBetTeam">${homeTeam}</div>
-        <div class="bestBetElement">140</div>
+        <div class="bestBetElement">${homeMoneylinePrice}</div>
         <div class="bestBetElement">${homeMoneylineVal * 100}</div>
       </div>`;
 
