@@ -33,11 +33,11 @@ async function getBetData(url){
 }
 
 async function showNBABets() {
-    buildBestBetBoard(await getBetData('https://betigolo-predictions.p.rapidapi.com/basketball/2023-04-12'), 'containerNBA')
+    buildBestBetBoard(await getBetData('https://betigolo-predictions.p.rapidapi.com/basketball/2023-04-13'), 'containerNBA')
 }
 
 async function showMLBBets() {
-	buildBestBetBoard(await getBetData('https://betigolo-predictions.p.rapidapi.com/baseball/2023-04-12'), 'containerMLB')	
+	buildBestBetBoard(await getBetData('https://betigolo-predictions.p.rapidapi.com/baseball/2023-04-13'), 'containerMLB')	
 }
 
 async function showNFLBets() {
@@ -62,13 +62,19 @@ clear(containerName);
     let awayTeam = 0;
     let homeMoneylineVal = 0;
     let awayMoneylineVal = 0;
-    if(currentGame.country_name === "USA"){
+    if(containerName === 'containerMLB' && currentGame.country_name === "USA" && currentGame.league_name === "MLB"){
         homeTeam = currentGame.home_team_name;
         awayTeam = currentGame.away_team_name;
         homeMoneylineVal = round(currentGame.rank_htw_nt, 2);
         awayMoneylineVal = round(currentGame.rank_atw_nt, 2);
         html += generateBestBetsBoard(currentGame, homeTeam, awayTeam, homeMoneylineVal, awayMoneylineVal);
-
+    }
+    if(containerName != 'containerMLB' && currentGame.country_name === "USA"){
+        homeTeam = currentGame.home_team_name;
+        awayTeam = currentGame.away_team_name;
+        homeMoneylineVal = round(currentGame.rank_htw_nt, 2);
+        awayMoneylineVal = round(currentGame.rank_atw_nt, 2);
+        html += generateBestBetsBoard(currentGame, homeTeam, awayTeam, homeMoneylineVal, awayMoneylineVal);
     }
   });
   let container = document.querySelector('.' + containerName);
@@ -81,7 +87,7 @@ function generateBestBetsBoard(currentGame, homeTeam, awayTeam, homeMoneylineVal
     htmlSegment += `<div class="header">
         <div class="headerElement-team">Team Name</div>
         <div class="headerElement-best">Moneyline Value</div>
-        <div class="headerElement-best">% Odds to Hit</div>
+        <div class="headerElement-best">% Chance to Hit</div>
       </div>
       <div class="team">
         <div class="bestBetTeam">${awayTeam}</div>
