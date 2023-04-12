@@ -1,9 +1,8 @@
 //API KEY-9f3436bf65c47b3988484cb92d3cb3be
 
 function clear(elementID)
-{
-  let container = document.querySelector(elementID);
-  container.innerHTML = "";
+{  	let container = document.querySelector('.' + elementID);
+	container.innerHTML = "";
 }
 
 const options = {
@@ -24,15 +23,15 @@ async function getData(url){
 }
 
 async function showNBAScores() {
-	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=3'), 'containerNBA')
+	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/basketball_nba/scores?daysFrom=1'), 'containerNBA')
 }
 
 async function showMLBScores() {
-	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?daysFrom=3'), 'containerMLB')	
+	buildScoreboard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/scores?'), 'containerMLB')	
 }
 
 async function buildScoreboard(allScores, containerName) {
-  clear('.' + containerName);
+	clear(containerName);
 
   let html = '';
   allScores.forEach(currentScore => {
@@ -55,7 +54,6 @@ async function buildScoreboard(allScores, containerName) {
 
     html += generateScoreboard(currentScore, awayScore, homeScore, winningTeam, completedDate);
   });
-
   let container = document.querySelector('.' + containerName);
   container.innerHTML = html;
 }

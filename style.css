@@ -15,6 +15,15 @@ body {
     display: inline-block;
 }
 
+.outerBetBoard {
+  width: 96%;
+  height: 220px;
+  margin: 2%;
+  border: 10px solid rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  display: inline-block;
+}
+
   .scoreboard {
     width: 275px;
     border-style: hidden;
@@ -24,6 +33,17 @@ body {
     background: linear-gradient(-60deg, #46404f 53%, #4B4452 53%);
     box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.25);
 }
+
+.betBoard {
+  width: 100%;
+  border-style: hidden;
+  border-width: 20px;
+  height: 100%;
+  align-items: center;
+  background: linear-gradient(-60deg, #46404f 53%, #4B4452 53%);
+  box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
   .date{
     height: 20%;
     width: 100%;
@@ -35,6 +55,40 @@ body {
     padding-left: 10px;
     letter-spacing: 1px;
   }
+
+  .header{
+    height: 20%;
+    width: 100%;
+    display: flex;
+    background: white;
+    font-size: 13px;
+    align-items: center;
+    justify-content: center;
+    padding-left: 10px;
+    letter-spacing: 1px;
+  }
+  .headerDate {
+    border-width: 1px;
+    display: flex;
+    border-color: black;
+    width: 40%;
+    flex-shrink: 0;
+    justify-content: left;
+    letter-spacing: 2px;
+    padding-left: 10px;
+
+  }
+
+  .headerElement {
+    border-width: 1px;
+    display: flex;
+    border-color: black;
+    width: 20%;
+    flex-shrink: 0;
+    justify-content: center;
+    letter-spacing: 2px;
+  }
+
   .team {
     width: 100%;
     height: 40%;
@@ -45,12 +99,44 @@ body {
     letter-spacing: 1px;
     padding-left: 10px;
   }
-  .team .name {
-    width: 52px;
+
+  .betteam {
+    width: 40%;
+    height: 40%;
+    display: flex;
+    align-items: center;
+    font-size: 14pt;
+    color: white;
+    letter-spacing: 1px;
+    padding-left: 10px;
+  }
+
+  .betTeamElement {
     flex-shrink: 0;
+    width: 20%;
+    display: flex;
     justify-content: center;
     letter-spacing: 2px;
   }
+
+  .betteam .overunder {
+    border-width: 1px;
+    border-color: black;
+    width: 33%;
+    display: flex;
+    justify-content: right;
+    letter-spacing: 2px;
+  }
+
+  .betteam .moneyline {
+    width: 33%;
+    flex-shrink: 0;
+    display: flex;
+
+    justify-content: right;
+    letter-spacing: 2px;
+  }
+
   .team:nth-child(1) .rank {
     border-top-left-radius: 20px;
   }
@@ -79,6 +165,7 @@ body {
     margin: 30px;
     letter-spacing: 2px;
   }
+
   .team .record {
     font-size: 16pt;
     color: #746f7f;
@@ -94,6 +181,25 @@ body {
     font-size: 10pt;
     color: white;
   }
+
+  .betdivider {
+    height: 1px;
+    width: 100%;
+    position: absolute;
+    margin-left: 0px;
+    font-size: 10pt;
+    color: white;
+  }
+
+  .betdivider::before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    background-color: #746f7f;
+  }
+
   .divider::before {
     content: "";
     display: inline-block;
