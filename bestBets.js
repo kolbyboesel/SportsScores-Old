@@ -10,7 +10,7 @@ function clearMLB()
 	container.innerHTML = "";
 }
 
-const betPredict = {
+const getBets = {
 	method: 'GET',
 	headers: {
 		'X-RapidAPI-Key': '7c01195a20mshbc9188a6ca4f5a5p1ce61cjsn5e640810eca6',
@@ -18,7 +18,7 @@ const betPredict = {
 	}
 };
 
-fetch(url, betPredict)
+fetch(url, getBets)
 	.then(response => response.json())
 	.then(response => console.log(response))
 	.catch(err => console.error(err));
