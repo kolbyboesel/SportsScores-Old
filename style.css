@@ -7,13 +7,58 @@ body {
   }
 
   .outer {
-    width: 295px;
+    width: 30%;
     height: 170px;
     border: 10px solid rgba(0, 0, 0, 0.25);
     border-radius: 5px;
-    margin: 2%;
+    margin: 1.5%;
     align-items: right;
     display:inline-block;
+}
+
+.outerNews {
+  width: 100%;
+  height: 200px;
+  border: 10px solid rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  align-items: right;
+  display: flex;
+}
+
+.sportsNews {
+  width: 100%;
+  border-style: hidden;
+  border-width: 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(-60deg, #ffffff 53%, #f0ecec 53%);
+  box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
+.sportsLink {
+  width: 45%;
+  height: 200px;
+  margin: 2.5%;
+  display: inline-block;
+}
+
+
+.kolbyPicksFullCont{
+  width: 100%;
+  height: 100vh;
+  display: inline-block;
+}
+
+.outerKolbysPicks {
+  display: flex;
+  width: 96%;
+  height: 100px;
+  border: 10px solid rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  margin: 2%;
+  align-items: right;
+  display:flex;
 }
 
 .outerBetBoard {
@@ -25,8 +70,17 @@ body {
   display: inline-block;
 }
 
+.outerBestBets {
+  width: 40%;
+  height: 200px;
+  margin: 5%;
+  border: 10px solid rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  display: inline-block;
+}
+
   .scoreboard {
-    width: 275px;
+    width: 100%;
     display: inline-block;
     border-style: hidden;
     border-width: 20px;
@@ -34,6 +88,17 @@ body {
     align-items: center;
     background: linear-gradient(-60deg, #46404f 53%, #4B4452 53%);
     box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
+.kolbysPicks {
+  width: 100%;
+  display: flex;
+  border-style: hidden;
+  border-width: 20px;
+  height: 100%;
+  align-items: center;
+  background: linear-gradient(-60deg, #46404f 53%, #4B4452 53%);
+  box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.25);
 }
 
 .betBoard {
@@ -45,6 +110,17 @@ body {
   background: linear-gradient(-60deg, #46404f 53%, #4B4452 53%);
   box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.25);
 }
+
+.bestBets {
+  width: 100%;
+  border-style: hidden;
+  border-width: 20px;
+  height: 100%;
+  align-items: center;
+  background: linear-gradient(-60deg, #46404f 53%, #4B4452 53%);
+  box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
 
   .date{
     height: 20%;
@@ -69,6 +145,7 @@ body {
     padding-left: 10px;
     letter-spacing: 1px;
   }
+
   .headerDate {
     border-width: 1px;
     display: flex;
@@ -91,6 +168,26 @@ body {
     letter-spacing: 2px;
   }
 
+  .headerElement-team{
+    border-width: 1px;
+    display: flex;
+    border-color: black;
+    width: 40%;
+    flex-shrink: 0;
+    justify-content: left;
+    letter-spacing: 2px;
+  }
+
+  .headerElement-best{
+    border-width: 1px;
+    display: flex;
+    border-color: black;
+    width: 30%;
+    flex-shrink: 0;
+    justify-content: center;
+    letter-spacing: 2px;
+  }
+
   .team {
     width: 100%;
     height: 40%;
@@ -102,6 +199,62 @@ body {
     padding-left: 10px;
   }
 
+  .article {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items: right;
+    display: inline-block;
+    font-size: 10pt;
+    color: black;
+    letter-spacing: 1px;
+    padding-left: 10px;
+  }
+
+  .pick {
+    width:100%;
+    height: 200px;
+    display: inline-block;
+    align-items: center;
+    font-size: 10pt;
+    color: white;
+    letter-spacing: 1px;
+    padding-left: 10px;
+  }
+
+  .pickNo {
+    width: 5%;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14pt;
+    color: white;
+    letter-spacing: 1px;
+    padding-left: 10px;
+  }
+  .pickName {
+    width: 55%;
+    height: 100%;
+    display: inline-flex;
+    align-items: left;
+    justify-content: left;
+    font-size: 14pt;
+    color: white;
+    letter-spacing: 1px;
+    padding-left: 10px;
+  }
+  .pickLine {
+    width: 30%;
+    height: 150px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: right;
+    font-size: 14pt;
+    color: white;
+    letter-spacing: 1px;
+    padding-right: 15px;
+  }
   .betteam {
     width: 40%;
     height: 40%;
@@ -116,6 +269,56 @@ body {
   .betTeamElement {
     flex-shrink: 0;
     width: 20%;
+    display: flex;
+    justify-content: center;
+    letter-spacing: 2px;
+  }
+
+  .bestBetTeam {
+    flex-shrink: 0;
+    width: 40%;
+    display: flex;
+    justify-content: left;
+    letter-spacing: 2px;
+  }
+
+  .imageStyle{
+  display: flex;
+  margin: 10%;
+  height:auto;
+  width:100%;
+  justify-content: left;
+  position:relative;
+  align-items: center;
+
+}
+  .sourceLogo {
+    flex-shrink: 0;
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: left;
+    letter-spacing: 2px;
+    align-items: center;
+
+  }
+
+  .newsTitle {
+    width: 80%;
+    padding-right: 5%;
+    padding-left: 5%;
+
+    display: inline-block;
+    text-align: right;
+    font-size:large;
+    justify-content: right;
+    align-items: right;
+    letter-spacing: 2px;
+  }
+
+  .bestBetElement {
+    flex-shrink: 0;
+    width: 30%;
     display: flex;
     justify-content: center;
     letter-spacing: 2px;
@@ -156,14 +359,14 @@ body {
     flex-shrink: 0;
   }
   .team .logo {
-    width: 50px;
+    width: 30px;
     margin: 25px;
   }
   .team .score {
     flex-shrink: 0;
-    width: 50px;
+    width: 40%;
     display: flex;
-    justify-content: center;
+    justify-content: right;
     margin: 30px;
     letter-spacing: 2px;
   }
@@ -177,7 +380,7 @@ body {
   
   .divider {
     height: 1px;
-    width: 275px;
+    width: 100%;
     position: absolute;
     margin-left: 0px;
     font-size: 10pt;
@@ -198,7 +401,7 @@ body {
     display: inline-block;
     position: absolute;
     height: 1px;
-    width: 100%;
+    width: 94.5%;
     background-color: #746f7f;
   }
 
@@ -207,7 +410,7 @@ body {
     display: inline-block;
     position: absolute;
     height: 1px;
-    width: 190px;
+    width: 22%;
     background-color: #746f7f;
   }
   .divider::after {
@@ -215,7 +418,7 @@ body {
     display: inline-block;
     position: absolute;
     height: 1px;
-    width: 20px;
+    width: 10px;
     right: 0;
     top: 0;
     background-color: #746f7f;
@@ -223,8 +426,8 @@ body {
   .divider p {
     font-weight: bold;
     position: absolute;
-    left: 200px;
-    bottom: -25px;
+    left: 23.75%;
+    bottom: -23px;
   }
   
   .gsw .rank {

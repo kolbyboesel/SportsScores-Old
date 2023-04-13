@@ -11,10 +11,9 @@
     <script src="betBoard.js"></script>
     <script src="bestBets.js"></script>
     <script src="kolbysBets.js"></script>
-    <script src="sportsNews.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <title>NBA</title>
+    <title>NHL</title>
 </head>
 
 <body>
@@ -23,30 +22,31 @@
       <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
       <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-hover-white" style="width: 13%;">Home</a>
       <a href="NFL.html" class="w3-bar-item w3-button w3-padding-large w3-hover-white" style="width: 13%;">NFL</a>
-      <a href="NBA.html" onclick=showNBANews() class="w3-bar-item w3-button w3-padding-large w3-white" style="width: 13%;">NBA</a>
+      <a href="NBA.html" onclick=showNBANews() class="w3-bar-item w3-button w3-padding-large w3-hover-white" style="width: 13%;">NBA</a>
       <a href="MLB.html" class="w3-bar-item w3-button w3-padding-large w3-hover-white" style="width: 13%;">MLB</a>
-      <a href="NHL.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="width: 13%;">NHL</a>
+      <a href="NHL.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-white" style="width: 13%;">NHL</a>
       <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="width: 10%; float: right;">Sign Up</a>
       <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="width: 10%; float: right;"">Log In</a>
     </div>
   </div> 
 
       <header class="w3-container w3-red w3-center" style="height: 25%; padding-top: 55px;">
-        <h1 class="w3-margin w3-jumbo" style="color: white; font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">NBA</h1>
+        <h1 class="w3-margin w3-jumbo" style="color: white; font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">NHL</h1>
       </header>
 
       <div class="w3" width=100%>
         <div class="w3-bar w3-red w3-card w3-large" width=100%>
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-          <a onclick=showNBANews() class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="width: 20%;">Home</a>
-          <a onclick=showNBAScores() class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="width: 20%;">Today's Scores</a>
-          <a onclick=showNBAOdds() class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="width: 20%;">Betting Odds</a>
-          <a onclick=showNBABets() class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="width: 20%;">Best Bets</a>
-          <a onclick=showKolbysNBA() class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="width: 20%;">Kolby's Bets of the Day</a>
+          <a onclick=clearNBA() class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="width: 20%;">Home</a>
+          <a onclick=showNHLScores() class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="width: 20%;">Today's Scores</a>
+          <a onclick=showNHLOdds() class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="width: 20%;">Betting Odds</a>
+          <a onclick=showNHLBets() class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="width: 20%;">Best Bets</a>
+          <a onclick=showKolbysNHL() class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="width: 20%;">Kolby's Bets of the Day</a>
+
         </div>
       </div>
 
-      <div class="containerNBA"></div>
+      <div class="containerNHL"></div>
 
 
 </body>

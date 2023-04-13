@@ -1,5 +1,18 @@
 //API KEY-9f3436bf65c47b3988484cb92d3cb3be
-
+const MLB_URL = 'https://odds.p.rapidapi.com/v4/sports/baseball_mlb/odds?regions=us&oddsFormat=american&markets=spreads,totals,h2h&dateFormat=iso'
+const NBA_URL = 'https://odds.p.rapidapi.com/v4/sports/basketball_nba/odds?regions=us&oddsFormat=american&markets=spreads,totals,h2h&dateFormat=iso'
+const NFL_URL = 'https://odds.p.rapidapi.com/v4/sports/americanfootball_nfl/odds?regions=us&oddsFormat=american&markets=spreads,totals,h2h&dateFormat=iso'
+const NHL_URL = 'https://odds.p.rapidapi.com/v4/sports/icehockey_nhl/odds?regions=us&oddsFormat=american&markets=spreads,totals,h2h&dateFormat=iso'
+let awaySpread = 0;
+let homeSpread = 0;
+let homeSpreadOdds = 0;
+let awaySpreadOdds = 0;
+let awayMoneyline = 0;
+let homeMoneyline = 0;
+let overValue = 0;
+let underValue = 0;
+let overOdds = 0;
+let underOdds = 0;
 function clearNBA()
 {  	let container = document.querySelector('.containerNBA');
 	container.innerHTML = "";
@@ -9,6 +22,58 @@ function clearMLB()
 {  	let container = document.querySelector('.containerMLB');
 	container.innerHTML = "";
 }
+
+async function getHomeMoneylinePrice(teamName, sport){
+    let neededURL;
+    if(sport === "MLB"){
+        neededURL = MLB_URL;
+    }
+    if(sport === "NBA"){
+        neededURL = NBA_URL;
+    }
+    if(sport === "NHL"){
+        neededURL = NHL_URL;
+    }
+    if(sport === "NFL"){
+        neededURL = NFL_URL;
+    }
+
+    let tempDataSet = await getData(neededURL);
+    tempDataSet.forEach(currentGame => {
+        setValues(currentGame);
+    });
+    return Number(homeMoneyline);
+}
+
+async function getAwayMoneylinePrice(teamName, sport){
+    let neededURL;
+    if(sport === "MLB"){
+        neededURL = MLB_URL;
+    }
+    if(sport === "NBA"){
+        neededURL = NBA_URL;
+    }
+    if(sport === "NHL"){
+        neededURL = NHL_URL;
+    }
+    if(sport === "NFL"){
+        neededURL = NFL_URL;
+    }
+
+    let tempDataSet = await getData(neededURL);
+    tempDataSet.forEach(currentGame => {
+        setValues(currentGame);
+    });
+    return Number(awayMoneyline);
+}
+
+options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '7c01195a20mshbc9188a6ca4f5a5p1ce61cjsn5e640810eca6',
+		'X-RapidAPI-Host': 'odds.p.rapidapi.com'
+	}
+};
 
 async function getData(url){
   try {
@@ -20,11 +85,16 @@ async function getData(url){
 }
 
 async function showNBAOdds() {
-	buildOddsBoard(await getData('https://odds.p.rapidapi.com/v4/sports/basketball_nba/odds?regions=us&oddsFormat=american&markets=spreads,totals,h2h&dateFormat=iso'), 'containerNBA')
+	buildOddsBoard(await getData(NBA_URL), 'containerNBA');
 }
-
 async function showMLBOdds() {
-	buildOddsBoard(await getData('https://odds.p.rapidapi.com/v4/sports/baseball_mlb/odds?regions=us&oddsFormat=american&markets=spreads,totals,h2h&dateFormat=iso'), 'containerMLB')	
+	buildOddsBoard(await getData(MLB_URL), 'containerMLB');
+}
+async function showNFLOdds() {
+	buildOddsBoard(await getData(NFL_URL), 'containerNFL');
+}
+async function showNHLOdds() {
+	buildOddsBoard(await getData(NHL_URL), 'containerNHL');
 }
 
 async function buildOddsBoard(allOdds, containerName) {
@@ -32,16 +102,55 @@ clear(containerName);
 
   let html = '';
   allOdds.forEach(currentGame => {
-    let awaySpread = 0;
-    let homeSpread = 0;
-    let homeSpreadOdds = 0;
-    let awaySpreadOdds = 0;
-    let awayMoneyline = 0;
-    let homeMoneyline = 0;
-    let overValue = 0;
-    let underValue = 0;
-    let overOdds = 0;
-    let underOdds = 0;
+    setValues(currentGame);
+
+    let completedDate = formatDate(currentGame.commence_time);
+
+    html += generateOddsBoard(currentGame, awaySpread, homeSpread, awaySpreadOdds, homeSpreadOdds, awayMoneyline, homeMoneyline, overValue, underValue, overOdds, underOdds, completedDate);
+  });
+  let container = document.querySelector('.' + containerName);
+  container.innerHTML = html;
+}
+
+function formatDate(rawDate){
+  let dateTimeValue = Date.parse(rawDate);
+  let dateRaw = new Date(dateTimeValue);
+
+  return dateRaw.toLocaleDateString() + " Start Time: " + dateRaw.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+}
+
+function generateOddsBoard(currentGame, awaySpread, homeSpread, awaySpreadOdds, homeSpreadOdds, awayMoneyline, homeMoneyline, overValue, underValue, overOdds, underOdds, dateTimeValue) {
+  let htmlSegment = `<div class="outerBetBoard"><div class="betBoard">`;
+  let gameStatus;
+
+    htmlSegment += `<div class="header">
+        <div class="headerDate">Date: ${dateTimeValue}</div>
+        <div class="headerElement">Spread</div>
+        <div class="headerElement">Over/Under</div>
+        <div class="headerElement">Moneyline</div>
+      </div>
+      <div class="team win">
+        <div class="betteam">${currentGame.away_team}</div>
+        <div class="betTeamElement">${awaySpread + "(" + awaySpreadOdds + ")"}</div>
+        <div class="betTeamElement">${overValue + "(" + overOdds + ")"}</div>
+        <div class="betTeamElement">${awayMoneyline}</div>
+      </div>
+      <div class="betdivider"></div>
+      <div class="team lose">
+        <div class="betteam">${currentGame.home_team}</div>
+        <div class="betTeamElement">${homeSpread + "(" + homeSpreadOdds + ")"}</div>
+        <div class="betTeamElement">${underValue + "(" + underOdds + ")"}</div>
+        <div class="betTeamElement">${homeMoneyline}</div>
+      </div>`;
+
+      htmlSegment += `
+      </div>
+    </div>`;
+
+  return htmlSegment;
+}
+
+function setValues(currentGame){
     if(currentGame.bookmakers[0].markets.length === 1){
         currentMarket = currentGame.bookmakers[0].markets[0].key;
         if(currentMarket === "spreads"){
@@ -157,49 +266,4 @@ clear(containerName);
                 }
         }
     }
-
-    let completedDate = formatDate(currentGame.commence_time);
-
-    html += generateOddsBoard(currentGame, awaySpread, homeSpread, awaySpreadOdds, homeSpreadOdds, awayMoneyline, homeMoneyline, overValue, underValue, overOdds, underOdds, completedDate);
-  });
-  let container = document.querySelector('.' + containerName);
-  container.innerHTML = html;
-}
-
-function formatDate(rawDate){
-  let dateTimeValue = Date.parse(rawDate);
-  let dateRaw = new Date(dateTimeValue);
-
-  return dateRaw.toLocaleDateString() + " Start Time: " + dateRaw.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-}
-
-function generateOddsBoard(currentGame, awaySpread, homeSpread, awaySpreadOdds, homeSpreadOdds, awayMoneyline, homeMoneyline, overValue, underValue, overOdds, underOdds, dateTimeValue) {
-  let htmlSegment = `<div class="outerBetBoard"><div class="betBoard">`;
-  let gameStatus;
-
-    htmlSegment += `<div class="header">
-        <div class="headerDate">Date: ${dateTimeValue}</div>
-        <div class="headerElement">Spread</div>
-        <div class="headerElement">Over/Under</div>
-        <div class="headerElement">Moneyline</div>
-      </div>
-      <div class="team win">
-        <div class="betteam">${currentGame.away_team}</div>
-        <div class="betTeamElement">${awaySpread + "(" + awaySpreadOdds + ")"}</div>
-        <div class="betTeamElement">${overValue + "(" + overOdds + ")"}</div>
-        <div class="betTeamElement">${awayMoneyline}</div>
-      </div>
-      <div class="betdivider"></div>
-      <div class="team lose">
-        <div class="betteam">${currentGame.home_team}</div>
-        <div class="betTeamElement">${homeSpread + "(" + homeSpreadOdds + ")"}</div>
-        <div class="betTeamElement">${underValue + "(" + underOdds + ")"}</div>
-        <div class="betTeamElement">${homeMoneyline}</div>
-      </div>`;
-
-      htmlSegment += `
-      </div>
-    </div>`;
-
-  return htmlSegment;
 }
