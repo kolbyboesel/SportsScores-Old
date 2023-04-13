@@ -13,75 +13,54 @@ let overValue = 0;
 let underValue = 0;
 let overOdds = 0;
 let underOdds = 0;
-function clearNBA()
-{  	let container = document.querySelector('.containerNBA');
-	container.innerHTML = "";
-}
+let completedDate = 0;
 
-function clearMLB()
-{  	let container = document.querySelector('.containerMLB');
-	container.innerHTML = "";
-}
-
-async function getHomeMoneylinePrice(teamName, sport){
+async function getHomeMoneylinePrice(teamName, league){
     let neededURL;
-    if(sport === "MLB"){
+    if(league === "MLB"){
         neededURL = MLB_URL;
     }
-    if(sport === "NBA"){
+    if(league === "NBA"){
         neededURL = NBA_URL;
     }
-    if(sport === "NHL"){
+    if(league === "NHL"){
         neededURL = NHL_URL;
     }
-    if(sport === "NFL"){
+    if(league === "NFL"){
         neededURL = NFL_URL;
     }
 
     let tempDataSet = await getData(neededURL);
     tempDataSet.forEach(currentGame => {
-        setValues(currentGame);
+        if(currentGame.home_team === teamName){
+            setValues(currentGame);
+            return Number(homeMoneyline);
+        }
     });
-    return Number(homeMoneyline);
 }
 
-async function getAwayMoneylinePrice(teamName, sport){
+async function getAwayMoneylinePrice(teamName, league){
     let neededURL;
-    if(sport === "MLB"){
+    if(league === "MLB"){
         neededURL = MLB_URL;
     }
-    if(sport === "NBA"){
+    if(league === "NBA"){
         neededURL = NBA_URL;
     }
-    if(sport === "NHL"){
+    if(league === "NHL"){
         neededURL = NHL_URL;
     }
-    if(sport === "NFL"){
+    if(league === "NFL"){
         neededURL = NFL_URL;
     }
 
     let tempDataSet = await getData(neededURL);
     tempDataSet.forEach(currentGame => {
-        setValues(currentGame);
+        if(currentGame.away_team === teamName){
+            setValues(currentGame);
+            return Number(awayMoneyline);
+        }
     });
-    return Number(awayMoneyline);
-}
-
-options = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': '7c01195a20mshbc9188a6ca4f5a5p1ce61cjsn5e640810eca6',
-		'X-RapidAPI-Host': 'odds.p.rapidapi.com'
-	}
-};
-
-async function getData(url){
-  try {
-    let res = await fetch(url, options);
-    return await res.json();
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 async function showNBAOdds() {
@@ -104,9 +83,9 @@ clear(containerName);
   allOdds.forEach(currentGame => {
     setValues(currentGame);
 
-    let completedDate = formatDate(currentGame.commence_time);
+    completedDate = formatDate(currentGame.commence_time);
 
-    html += generateOddsBoard(currentGame, awaySpread, homeSpread, awaySpreadOdds, homeSpreadOdds, awayMoneyline, homeMoneyline, overValue, underValue, overOdds, underOdds, completedDate);
+    html += generateOddsBoard(currentGame);
   });
   let container = document.querySelector('.' + containerName);
   container.innerHTML = html;
@@ -119,12 +98,12 @@ function formatDate(rawDate){
   return dateRaw.toLocaleDateString() + " Start Time: " + dateRaw.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 }
 
-function generateOddsBoard(currentGame, awaySpread, homeSpread, awaySpreadOdds, homeSpreadOdds, awayMoneyline, homeMoneyline, overValue, underValue, overOdds, underOdds, dateTimeValue) {
+function generateOddsBoard(currentGame) {
   let htmlSegment = `<div class="outerBetBoard"><div class="betBoard">`;
   let gameStatus;
 
     htmlSegment += `<div class="header">
-        <div class="headerDate">Date: ${dateTimeValue}</div>
+        <div class="headerDate">Date: ${completedDate}</div>
         <div class="headerElement">Spread</div>
         <div class="headerElement">Over/Under</div>
         <div class="headerElement">Moneyline</div>
@@ -152,7 +131,7 @@ function generateOddsBoard(currentGame, awaySpread, homeSpread, awaySpreadOdds, 
 
 function setValues(currentGame){
     if(currentGame.bookmakers[0].markets.length === 1){
-        currentMarket = currentGame.bookmakers[0].markets[0].key;
+        let currentMarket = currentGame.bookmakers[0].markets[0].key;
         if(currentMarket === "spreads"){
             if(currentGame.away_team == currentGame.bookmakers[0].markets[0].outcomes[0].name){
                 awaySpread = currentGame.bookmakers[0].markets[0].outcomes[0].point;
@@ -190,80 +169,49 @@ function setValues(currentGame){
     }
     if(currentGame.bookmakers[0].markets.length === 2){
         for(let i = 0; i < 2; i++){
-            currentMarket = currentGame.bookmakers[0].markets[i].key;
-                if(currentMarket === "spreads"){
-                    if(currentGame.away_team == currentGame.bookmakers[0].markets[i].outcomes[0].name){
-                        awaySpread = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        awaySpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                        homeSpread = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        homeSpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                    }
-                    else{
-                        awaySpread = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        awaySpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                        homeSpread = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        homeSpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                    }
-                }else if(currentMarket === "h2h"){
-                    if(currentGame.away_team == currentGame.bookmakers[0].markets[i].outcomes[0].name){
-                        awayMoneyline = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                        homeMoneyline = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                    }
-                }else if(currentMarket === "totals"){
-                    if(currentGame.bookmakers[0].markets[i].outcomes[0].name == "Over"){
-                        overValue = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        overOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                        underValue = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        underOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                    }
-                    else{
-                        overValue = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        overOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                        underValue = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        underOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                    }
-                }
+            let currentMarket = currentGame.bookmakers[0].markets[i].key;
+            setMultipleValues(currentGame, currentMarket, i);
         }
     }
     if(currentGame.bookmakers[0].markets.length === 3){
         for(let i = 0; i < 3; i++){
-            currentMarket = currentGame.bookmakers[0].markets[i].key;
-                if(currentMarket === "spreads"){
-                    if(currentGame.away_team == currentGame.bookmakers[0].markets[i].outcomes[0].name){
-                        awaySpread = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        awaySpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                        homeSpread = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        homeSpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                    }
-                    else{
-                        awaySpread = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        awaySpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                        homeSpread = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        homeSpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                    }
-                } else if(currentMarket === "h2h"){
-                    if(currentGame.away_team == currentGame.bookmakers[0].markets[i].outcomes[0].name){
-                        awayMoneyline = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                        homeMoneyline = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                    }
-                    else{
-                        homeMoneyline = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                        awayMoneyline = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                    }
-                } else if(currentMarket === "totals"){
-                    if(currentGame.bookmakers[0].markets[i].outcomes[0].name == "Over"){
-                        overValue = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        overOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                        underValue = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        underOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                    }
-                    else{
-                        overValue = currentGame.bookmakers[0].markets[i].outcomes[1].point;
-                        overOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
-                        underValue = currentGame.bookmakers[0].markets[i].outcomes[0].point;
-                        underOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
-                    }
-                }
+            let currentMarket = currentGame.bookmakers[0].markets[i].key;
+            setMultipleValues(currentGame, currentMarket, i);
+        }
+    }
+
+    function setMultipleValues(currentGame, currentMarket, i){
+        if(currentMarket === "spreads"){
+            if(currentGame.away_team == currentGame.bookmakers[0].markets[i].outcomes[0].name){
+                awaySpread = currentGame.bookmakers[0].markets[i].outcomes[0].point;
+                awaySpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
+                homeSpread = currentGame.bookmakers[0].markets[i].outcomes[1].point;
+                homeSpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
+            }
+            else{
+                awaySpread = currentGame.bookmakers[0].markets[i].outcomes[1].point;
+                awaySpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
+                homeSpread = currentGame.bookmakers[0].markets[i].outcomes[0].point;
+                homeSpreadOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
+            }
+        }else if(currentMarket === "h2h"){
+            if(currentGame.away_team == currentGame.bookmakers[0].markets[i].outcomes[0].name){
+                awayMoneyline = currentGame.bookmakers[0].markets[i].outcomes[0].price;
+                homeMoneyline = currentGame.bookmakers[0].markets[i].outcomes[1].price;
+            }
+        }else if(currentMarket === "totals"){
+            if(currentGame.bookmakers[0].markets[i].outcomes[0].name == "Over"){
+                overValue = currentGame.bookmakers[0].markets[i].outcomes[0].point;
+                overOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
+                underValue = currentGame.bookmakers[0].markets[i].outcomes[1].point;
+                underOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
+            }
+            else{
+                overValue = currentGame.bookmakers[0].markets[i].outcomes[1].point;
+                overOdds = currentGame.bookmakers[0].markets[i].outcomes[1].price;
+                underValue = currentGame.bookmakers[0].markets[i].outcomes[0].point;
+                underOdds = currentGame.bookmakers[0].markets[i].outcomes[0].price;
+            }
         }
     }
 }

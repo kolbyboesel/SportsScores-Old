@@ -8,11 +8,6 @@ const getNews = {
   }
 };
 
-fetch(url, getNews)
-	.then(response => response.json())
-	.then(response => console.log(response))
-	.catch(err => console.error(err));
-
 async function getNewsData(url){
   try {
     let res = await fetch(url, getNews);

@@ -4,66 +4,16 @@ function showKolbysNBA(){
     htmlSegment += `<div class="outerKolbysPicks"><div class="kolbysPicks">
    <div class="pick">
         <div class="pickNo">1. </div>
-        <div class="pickName">Gary Trent Jr. Points</div>
-        <div class="pickLine">Over 13.5</div>
-      </div></div></div>`
-
-
-      htmlSegment += `<div class="outerKolbysPicks"><div class="kolbysPicks">
-<div class="pick">
-        <div class="pickNo">2. </div>
-        <div class="pickName">Gary Trent Jr. 3 Pointers Made</div>
-        <div class="pickLine">Over 1.5</div>
-      </div></div></div>`
-
-      htmlSegment += `<div class="outerKolbysPicks"><div class="kolbysPicks">
-<div class="pick">
-        <div class="pickNo">3. </div>
-        <div class="pickName">Jakob Poetl Rebounds</div>
-        <div class="pickLine">Under 9.5</div>
-      </div></div></div>`
-
-      htmlSegment += `<div class="outerKolbysPicks"><div class="kolbysPicks">
-<div class="pick">
-      <div class="pickNo">4. </div>
-      <div class="pickName">Josh Giddey Assists</div>
-      <div class="pickLine">Over 5.5</div>
-    </div></div></div>`
-
-    htmlSegment += `<div class="outerKolbysPicks"><div class="kolbysPicks">
-<div class="pick">
-    <div class="pickNo">5. </div>
-    <div class="pickName">Trey Murphy Rebounds</div>
-    <div class="pickLine">Over 3.5</div>
-  </div></div></div>`
-
-  htmlSegment += `<div class="outerKolbysPicks"><div class="kolbysPicks">
-<div class="pick">
-  <div class="pickNo">6. </div>
-  <div class="pickName">Patrick Beverley Assists</div>
-  <div class="pickLine">Over 2.5</div>
-</div></div></div>`
-
-    htmlSegment += `<div class="outerKolbysPicks"><div class="kolbysPicks">
-<div class="pick">
-    <div class="pickNo">7. </div>
-    <div class="pickName">C.J. McCollum Points</div>
-    <div class="pickLine">Over 22.5</div>
-</div></div></div>`
-
-htmlSegment += `<div class="outerKolbysPicks"><div class="kolbysPicks">
-<div class="pick">
-    <div class="pickNo">8. </div>
-    <div class="pickName">Nikola Vucevic Rebounds</div>
-    <div class="pickLine">Over 10.5</div>
-</div>`
+        <div class="pickName">No NBA Today</div>
+        <div class="pickLine">TBD</div>
+      </div>`
 
       htmlSegment += `
       </div>
     </div>
     </div>`;
 
-    container = document.querySelector('.containerNBA');
+    let container = document.querySelector('.containerNBA');
     console.log(htmlSegment);
     container.innerHTML = htmlSegment;
 }
@@ -76,10 +26,14 @@ function showKolbysMLB(){
    <div class="pick">
         <div class="pickNo">1. </div>
         <div class="pickName">Check back later for today's picks</div>
-        <div class="pickLine"></div>
-      </div></div></div>`
+        <div class="pickLine">TBD</div>
+      </div>`
 
-    container = document.querySelector('.containerMLB');
+      htmlSegment += `</div>
+    </div>
+    </div>`;
+
+    let container = document.querySelector('.containerMLB');
     container.innerHTML = htmlSegment;
 }
 
@@ -91,10 +45,14 @@ function showKolbysNHL(){
    <div class="pick">
         <div class="pickNo">1. </div>
         <div class="pickName">No Picks Today</div>
-        <div class="pickLine">/div>
-      </div></div></div>`
+        <div class="pickLine">TBD</div>
+      </div>`
 
-    container = document.querySelector('.containerNHL');
+      htmlSegment += `</div>
+    </div>
+    </div>`;
+
+    let container = document.querySelector('.containerNHL');
     container.innerHTML = htmlSegment;
 }
 
@@ -106,9 +64,13 @@ function showKolbysNFL(){
    <div class="pick">
         <div class="pickNo">1. </div>
         <div class="pickName">Come back during the NFL season</div>
-        <div class="pickLine"></div>
-      </div></div></div>`
+        <div class="pickLine">TBD</div>
+      </div>`
 
-    container = document.querySelector('.containerNFL');
+      htmlSegment += `</div>
+    </div>
+    </div>`;
+
+    let container = document.querySelector('.containerNFL');
     container.innerHTML = htmlSegment;
 }
