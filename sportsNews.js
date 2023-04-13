@@ -1,4 +1,6 @@
 //API KEY-9f3436bf65c47b3988484cb92d3cb3be
+
+
 const getNews = {
 	method: 'GET',
     url: 'https://nba-latest-news.p.rapidapi.com/articles',
