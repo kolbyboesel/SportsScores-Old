@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "bT3GCm9oYITIcj5hlDiiwKD/Zl8KIJKvOt1m+eRKfTOMcAKU56uoQl6PfzaqHWB8Mbz+qTaBiQWR2hgd8GW0pA==",
+  "success": true,
+  "projectFilePath": "/Users/kolbyboesel/Desktop/SportsWebsite/app/app.csproj",
+  "expectedPackageFiles": [
+    "/Users/kolbyboesel/.nuget/packages/restsharp/110.2.0/restsharp.110.2.0.nupkg.sha512",
+    "/Users/kolbyboesel/.nuget/packages/system.text.encodings.web/7.0.0/system.text.encodings.web.7.0.0.nupkg.sha512",
+    "/Users/kolbyboesel/.nuget/packages/system.text.json/7.0.2/system.text.json.7.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

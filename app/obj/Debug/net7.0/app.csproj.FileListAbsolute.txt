@@ -1,0 +1,17 @@
+/Users/kolbyboesel/Desktop/SportsWebsite/app/obj/Debug/net7.0/app.csproj.AssemblyReference.cache
+/Users/kolbyboesel/Desktop/SportsWebsite/app/obj/Debug/net7.0/app.GeneratedMSBuildEditorConfig.editorconfig
+/Users/kolbyboesel/Desktop/SportsWebsite/app/obj/Debug/net7.0/app.AssemblyInfoInputs.cache
+/Users/kolbyboesel/Desktop/SportsWebsite/app/obj/Debug/net7.0/app.AssemblyInfo.cs
+/Users/kolbyboesel/Desktop/SportsWebsite/app/obj/Debug/net7.0/app.csproj.CoreCompileInputs.cache
+/Users/kolbyboesel/Desktop/SportsWebsite/app/bin/Debug/net7.0/app
+/Users/kolbyboesel/Desktop/SportsWebsite/app/bin/Debug/net7.0/app.deps.json
+/Users/kolbyboesel/Desktop/SportsWebsite/app/bin/Debug/net7.0/app.runtimeconfig.json
+/Users/kolbyboesel/Desktop/SportsWebsite/app/bin/Debug/net7.0/app.dll
+/Users/kolbyboesel/Desktop/SportsWebsite/app/bin/Debug/net7.0/app.pdb
+/Users/kolbyboesel/Desktop/SportsWebsite/app/bin/Debug/net7.0/RestSharp.dll
+/Users/kolbyboesel/Desktop/SportsWebsite/app/obj/Debug/net7.0/app.csproj.CopyComplete
+/Users/kolbyboesel/Desktop/SportsWebsite/app/obj/Debug/net7.0/app.dll
+/Users/kolbyboesel/Desktop/SportsWebsite/app/obj/Debug/net7.0/refint/app.dll
+/Users/kolbyboesel/Desktop/SportsWebsite/app/obj/Debug/net7.0/app.pdb
+/Users/kolbyboesel/Desktop/SportsWebsite/app/obj/Debug/net7.0/app.genruntimeconfig.cache
+/Users/kolbyboesel/Desktop/SportsWebsite/app/obj/Debug/net7.0/ref/app.dll
